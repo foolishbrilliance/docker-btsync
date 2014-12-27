@@ -17,7 +17,7 @@ RUN cat /etc/btsync.conf
 
 # Commented out because I don't use the WebGUI
 # Web GUI
-EXPOSE 8888
+EXPOSE 80
 # Listening port
 EXPOSE 55555
 
