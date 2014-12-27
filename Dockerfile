@@ -13,8 +13,8 @@ RUN mkdir -p /var/btsync/.sync
 
 # Load btsync config from S3 via AWS CLI
 RUN aws s3 cp s3://superjoeconfig/btsync/btsync.conf /etc/btsync.conf
-RUN cat /etc/btsync.conf
-RUN sed -i "s/\(\s*\"device_name\"\s*:\s*\).*$/\1 \"$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\"/" /etc/btsync.conf
+ADD http://169.254.169.254/latest/meta-data/instance-id /tmp/instance-id
+RUN sed -i "s/\(\s*\"device_name\"\s*:\s*\).*$/\1 \"$(cat /tmp/instance-id)\",\n/" /etc/btsync.conf
 
 # Commented out because I don't use the WebGUI
 # Web GUI
@@ -22,5 +22,6 @@ EXPOSE 80
 # Listening port
 EXPOSE 55555
 
+RUN cat /etc/btsync.conf
 ENTRYPOINT ["btsync"]
 CMD ["--config", "/etc/btsync.conf", "--nodaemon"]
