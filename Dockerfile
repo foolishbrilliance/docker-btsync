@@ -14,6 +14,7 @@ RUN mkdir -p /var/btsync/.sync
 # Load btsync config from S3 via AWS CLI
 RUN aws s3 cp s3://superjoeconfig/btsync/btsync.conf /etc/btsync.conf
 RUN cat /etc/btsync.conf
+RUN sed "s/\(\s*\"device_name\"\s*:\s*\).*$/\1 \"$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\"/" /etc/btsync.conf
 
 # Commented out because I don't use the WebGUI
 # Web GUI
