@@ -1,15 +1,19 @@
-BitTorrent Sync Dockerfile
+BitTorrent Sync `Dockerfile` and `Dockerrun.aws.json` for AWS Elastic Beanstalk
 ==========================
 
-This will build a [docker](http://www.docker.io/) image that runs [BitTorrent Sync](http://labs.bittorrent.com/experiments/sync.html).
+## Beanstalk Instructions
 
+* modify `Dockerfile` with custom `btsync.conf` S3 Path
+* zip `Dockerfile` and `Dockerrun.aws.json`
+* Deploy .zip to AWS Elastic Beanstalk per  http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_docker_console.html
 
-### Building the Image ###
+## Deploying outside of beanstalk
+
+### Building docker image ###
 
 ```
 docker build -t btsync .
 ```
-
 
 ### Running BitTorrent Sync ###
 
