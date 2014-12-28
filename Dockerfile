@@ -2,19 +2,27 @@
 # VERSION 1.0
 # forked from https://github.com/billt2006/docker-btsync
 
-# My image with AWS CLI installed
-FROM foolishbrilliance/awscli
-
 MAINTAINER Joe Chan (@foolishbrilliance)
+
+##
+# Uncomment this section out if you want to use image with AWS CLI already installed
+# FROM ubuntu:14.04
+# RUN apt-get update -q
+# RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy python-pip
+# RUN pip install awscli
+
+FROM foolishbrilliance/awscli
 
 # Install btsync
 ADD http://download-new.utorrent.com/endpoint/btsync/os/linux-x64/track/stable /usr/bin/btsync.tar.gz
 RUN cd /usr/bin && tar -xzvf btsync.tar.gz && rm btsync.tar.gz
 RUN mkdir -p /var/btsync/.sync
 
+
 # Load custom btsync.conf from S3 via AWS CLI
 RUN aws s3 cp s3://superjoeconfig/btsync/btsync.conf /etc/btsync.conf
 ADD http://169.254.169.254/latest/meta-data/instance-id /tmp/instance-id
+# Set device name to instance ID
 RUN sed -i "s/\(\s*\"device_name\"\s*:\s*\).*$/\1 \"$(cat /tmp/instance-id)\",\n/" /etc/btsync.conf
 
 #
