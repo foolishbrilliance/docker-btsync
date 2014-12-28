@@ -2,16 +2,15 @@
 # VERSION 1.0
 # forked from https://github.com/billt2006/docker-btsync
 
-MAINTAINER Joe Chan (@foolishbrilliance)
-
 ##
-# Uncomment this section out if you want to use image with AWS CLI already installed
+# Uncomment this section if you want to start from the base image
 # FROM ubuntu:14.04
 # RUN apt-get update -q
 # RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy python-pip
 # RUN pip install awscli
 
 FROM foolishbrilliance/awscli
+MAINTAINER Joe Chan (@foolishbrilliance)
 
 # Install btsync
 ADD http://download-new.utorrent.com/endpoint/btsync/os/linux-x64/track/stable /usr/bin/btsync.tar.gz
