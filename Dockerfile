@@ -28,7 +28,7 @@ RUN sed -i "s/\(\s*\"device_name\"\s*:\s*\).*$/\1 \"$(cat /tmp/instance-id)\:$(c
 #
 RUN echo '#!'$(which bash) > /tmp/init.sh
 # Run web server for Beanstalk health check
-RUN echo 'while true; do pidof btsync && echo -e "HTTP/1.1 200 OK\r\nDate: $(date)\r\n\r\nOK: btsync is running as of $(date) on $(cat /tmp/instance-id):$(cat /tmp/public-ipv4)\n$(df -h)" | nc -l 8080 || echo -e "HTTP/1.1 500 INTERNAL SERVER ERROR\r\nDate: $(date)\r\n\r\nERROR: btsync is NOT running as of $(date) on $(cat /tmp/instance-id):$(cat /tmp/public-ipv4)\n$(df -h)" | nc -l 8080; done >/dev/null &' >> /tmp/init.sh
+RUN echo 'while true; do pidof btsync && echo -e "HTTP/1.1 200 OK\r\nDate: $(date)\r\n\r\nOK: btsync is running as of $(date) on $(cat /tmp/instance-id):$(cat /tmp/public-ipv4)\nFree Space: $(df -h |grep /etc/hosts | awk '"'{print \$4}'"')" | nc -l 8080 || echo -e "HTTP/1.1 500 INTERNAL SERVER ERROR\r\nDate: $(date)\r\n\r\nERROR: btsync is NOT running as of $(date) on $(cat /tmp/instance-id):$(cat /tmp/public-ipv4)\nFree Space: $(df -h |grep /etc/hosts | awk '"'{print \$4}'"')" | nc -l 8080; done >/dev/null &' >> /tmp/init.sh
 # Run btsync
 RUN echo 'btsync --config /etc/btsync.conf --nodaemon' >> /tmp/init.sh
 RUN chmod +x /tmp/init.sh
