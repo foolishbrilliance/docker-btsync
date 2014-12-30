@@ -1,4 +1,4 @@
-BitTorrent Sync `Dockerfile` and `Dockerrun.aws.json` for AWS Elastic Beanstalk
+BitTorrent Sync Dockerfile and Dockerrun.aws.json for AWS Elastic Beanstalk
 ==========================
 
 ## Beanstalk Instructions
